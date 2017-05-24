@@ -1,0 +1,261 @@
+{
+  "backend": "theano",
+  "class_name": "Model",
+  "config": {
+    "input_layers": [
+      [
+        "tracks",
+        0,
+        0
+      ],
+      [
+        "vertices",
+        0,
+        0
+      ]
+    ],
+    "layers": [
+      {
+        "class_name": "InputLayer",
+        "config": {
+          "batch_input_shape": [
+            null,
+            null,
+            4
+          ],
+          "dtype": "float32",
+          "name": "tracks",
+          "sparse": false
+        },
+        "inbound_nodes": [],
+        "name": "tracks"
+      },
+      {
+        "class_name": "GRU",
+        "config": {
+          "activation": "tanh",
+          "activity_regularizer": null,
+          "bias_constraint": null,
+          "bias_initializer": {
+            "class_name": "Zeros",
+            "config": {}
+          },
+          "bias_regularizer": null,
+          "dropout": 0.0,
+          "go_backwards": false,
+          "implementation": 0,
+          "kernel_constraint": null,
+          "kernel_initializer": {
+            "class_name": "VarianceScaling",
+            "config": {
+              "distribution": "uniform",
+              "mode": "fan_avg",
+              "scale": 1.0,
+              "seed": null
+            }
+          },
+          "kernel_regularizer": null,
+          "name": "gru_1",
+          "recurrent_activation": "hard_sigmoid",
+          "recurrent_constraint": null,
+          "recurrent_dropout": 0.0,
+          "recurrent_initializer": {
+            "class_name": "Orthogonal",
+            "config": {
+              "gain": 1.0,
+              "seed": null
+            }
+          },
+          "recurrent_regularizer": null,
+          "return_sequences": false,
+          "stateful": false,
+          "trainable": true,
+          "units": 5,
+          "unroll": false,
+          "use_bias": true
+        },
+        "inbound_nodes": [
+          [
+            [
+              "tracks",
+              0,
+              0,
+              {}
+            ]
+          ]
+        ],
+        "name": "gru_1"
+      },
+      {
+        "class_name": "InputLayer",
+        "config": {
+          "batch_input_shape": [
+            null,
+            8
+          ],
+          "dtype": "float32",
+          "name": "vertices",
+          "sparse": false
+        },
+        "inbound_nodes": [],
+        "name": "vertices"
+      },
+      {
+        "class_name": "Concatenate",
+        "config": {
+          "axis": -1,
+          "name": "concatenate_1",
+          "trainable": true
+        },
+        "inbound_nodes": [
+          [
+            [
+              "gru_1",
+              0,
+              0,
+              {}
+            ],
+            [
+              "vertices",
+              0,
+              0,
+              {}
+            ]
+          ]
+        ],
+        "name": "concatenate_1"
+      },
+      {
+        "class_name": "Dense",
+        "config": {
+          "activation": "relu",
+          "activity_regularizer": null,
+          "bias_constraint": null,
+          "bias_initializer": {
+            "class_name": "Zeros",
+            "config": {}
+          },
+          "bias_regularizer": null,
+          "kernel_constraint": null,
+          "kernel_initializer": {
+            "class_name": "VarianceScaling",
+            "config": {
+              "distribution": "uniform",
+              "mode": "fan_avg",
+              "scale": 1.0,
+              "seed": null
+            }
+          },
+          "kernel_regularizer": null,
+          "name": "dense_1",
+          "trainable": true,
+          "units": 10,
+          "use_bias": true
+        },
+        "inbound_nodes": [
+          [
+            [
+              "concatenate_1",
+              0,
+              0,
+              {}
+            ]
+          ]
+        ],
+        "name": "dense_1"
+      },
+      {
+        "class_name": "Dense",
+        "config": {
+          "activation": "softmax",
+          "activity_regularizer": null,
+          "bias_constraint": null,
+          "bias_initializer": {
+            "class_name": "Zeros",
+            "config": {}
+          },
+          "bias_regularizer": null,
+          "kernel_constraint": null,
+          "kernel_initializer": {
+            "class_name": "VarianceScaling",
+            "config": {
+              "distribution": "uniform",
+              "mode": "fan_avg",
+              "scale": 1.0,
+              "seed": null
+            }
+          },
+          "kernel_regularizer": null,
+          "name": "flavor",
+          "trainable": true,
+          "units": 4,
+          "use_bias": true
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dense_1",
+              0,
+              0,
+              {}
+            ]
+          ]
+        ],
+        "name": "flavor"
+      },
+      {
+        "class_name": "Dense",
+        "config": {
+          "activation": "linear",
+          "activity_regularizer": null,
+          "bias_constraint": null,
+          "bias_initializer": {
+            "class_name": "Zeros",
+            "config": {}
+          },
+          "bias_regularizer": null,
+          "kernel_constraint": null,
+          "kernel_initializer": {
+            "class_name": "VarianceScaling",
+            "config": {
+              "distribution": "uniform",
+              "mode": "fan_avg",
+              "scale": 1.0,
+              "seed": null
+            }
+          },
+          "kernel_regularizer": null,
+          "name": "charge",
+          "trainable": true,
+          "units": 1,
+          "use_bias": true
+        },
+        "inbound_nodes": [
+          [
+            [
+              "dense_1",
+              0,
+              0,
+              {}
+            ]
+          ]
+        ],
+        "name": "charge"
+      }
+    ],
+    "name": "model_1",
+    "output_layers": [
+      [
+        "flavor",
+        0,
+        0
+      ],
+      [
+        "charge",
+        0,
+        0
+      ]
+    ]
+  },
+  "keras_version": "2.0.3"
+}

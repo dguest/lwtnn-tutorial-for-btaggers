@@ -1,0 +1,93 @@
+{
+  "input_sequences": [
+    {
+      "name": "tracks",
+      "variables": [
+        {
+          "name": "d0",
+          "offset": 0,
+          "scale": 1
+        },
+        {
+          "name": "z0",
+          "offset": 0,
+          "scale": 1
+        },
+        {
+          "name": "ptfrac",
+          "offset": 0,
+          "scale": 1
+        },
+        {
+          "name": "dr",
+          "offset": 0,
+          "scale": 1
+        }
+      ]
+    }
+  ],
+  "inputs": [
+    {
+      "name": "vertices",
+      "variables": [
+        {
+          "name": "sv1_mass",
+          "offset": 0,
+          "scale": 1
+        },
+        {
+          "name": "sv1_sig",
+          "offset": 0,
+          "scale": 1
+        },
+        {
+          "name": "sv1_dr",
+          "offset": 0,
+          "scale": 1
+        },
+        {
+          "name": "jf_mass",
+          "offset": 0,
+          "scale": 1
+        },
+        {
+          "name": "jf_sig",
+          "offset": 0,
+          "scale": 1
+        },
+        {
+          "name": "jf_dr",
+          "offset": 0,
+          "scale": 1
+        },
+        {
+          "name": "who_cares",
+          "offset": 0,
+          "scale": 1
+        },
+        {
+          "name": "bad_variable_name",
+          "offset": 0,
+          "scale": 1
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "labels": [
+        "pu",
+        "pc",
+        "pb",
+        "ptau"
+      ],
+      "name": "flavor"
+    },
+    {
+      "labels": [
+        "charge"
+      ],
+      "name": "charge"
+    }
+  ]
+}
