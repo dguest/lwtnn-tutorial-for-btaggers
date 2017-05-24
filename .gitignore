@@ -1,0 +1,5 @@
+*.pdf
+*.h5
+*.json
+!/data/
+/model/

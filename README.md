@@ -78,3 +78,7 @@ Athena, but it's not there yet. If you really want it soon
 track of how many people want this. Be sure to mention @dguest and @jwsmith.
 
 [2]: https://its.cern.ch/jira/projects/ATLASG
+
+Converting a Keras model to lwtnn JSON
+======================================
+
