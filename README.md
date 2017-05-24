@@ -26,16 +26,23 @@ Getting this code
 You can clone from github:
 
 ```bash
-git clone git@github.com:dguest/lwtnn-tutorial-for-btaggers.git
+git clone --recursive git@github.com:dguest/lwtnn-tutorial-for-btaggers.git
 ```
+
+Note that the `--recursive` flag is important to get `lwtnn` as a
+submodule. If you have trouble with authentication you may
+[need to add your ssh keys][1] to your github account. Or just use the
+`https:` clone method for now.
+
+[1]: https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
 
 Setting up
 ==========
 
 The ideal setup depends on where you're working.
 
-Working on machines with CVMFS
-------------------------------
+Setup on machines with CVMFS
+----------------------------
 
 You should be able to get everything by running
 
@@ -43,8 +50,8 @@ You should be able to get everything by running
 source cvmfs-setup.sh
 ```
 
-Working elsewhere
------------------
+Setup elsewhere
+---------------
 
 You're shit out of luck. Or you can figure out how to install the
 following:
@@ -52,3 +59,22 @@ following:
  - Python 3 (for the converters)
  - Boost and Eigen3 (I might add the required headers to this package
    someday)
+
+Building the code
+-----------------
+
+This is to build the C++ library that you'll have to link to.
+
+```bash
+cd lwtnn
+make
+```
+
+It should just compile.
+
+At some point we'll have this as a common package in AnalysisBase and
+Athena, but it's not there yet. If you really want it soon
+[create a JIRA ticket][2] or something, we don't know how to keep
+track of how many people want this. Be sure to mention @dguest and @jwsmith.
+
+[2]: https://its.cern.ch/jira/projects/ATLASG
