@@ -1,0 +1,3 @@
+[submodule "lwtnn"]
+	path = lwtnn
+	url = https://github.com/lwtnn/lwtnn.git

@@ -20,11 +20,35 @@ This is what `lwtnn` is for. It has two components:
 We try to keep the C++ dependencies minimal, but we require boost and
 Eigen3.
 
-Setting up on a machine with CVMFS
-==================================
+Getting this code
+=================
+
+You can clone from github:
+
+```bash
+git clone git@github.com:dguest/lwtnn-tutorial-for-btaggers.git
+```
+
+Setting up
+==========
+
+The ideal setup depends on where you're working.
+
+Working on machines with CVMFS
+------------------------------
 
 You should be able to get everything by running
 
 ```bash
 source cvmfs-setup.sh
 ```
+
+Working elsewhere
+-----------------
+
+You're shit out of luck. Or you can figure out how to install the
+following:
+
+ - Python 3 (for the converters)
+ - Boost and Eigen3 (I might add the required headers to this package
+   someday)
