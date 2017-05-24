@@ -3,7 +3,7 @@ Tutorial on using lwtnn on CERN machines
 
 You've trained some boosted higgsonic stop tagger with Keras and found
 that it's the most awesome thing for physics since cutting hard on
-mT2. But now you're in a bind: someone stupid convener is asking how
+mT2. But now you're in a bind: some stupid convener is asking how
 you're going to calibrate it! You have no idea, but it will probably
 involve making the tagger run in ~RootCore~ Analysis Base (?) so
 everyone else can run the tagger without setting up 10 GB of conda
@@ -121,12 +121,15 @@ This will spit out `vars.json` which has entries for `input_sequences`
 (the tracks), `inputs` (the vertices), and `outputs` (the labels and
 jet charge). You should go in and change the `"name"` entries to
 something you'll remember, and make sure the `"labels"` in the outputs
-correspond to the class labels you used. Or, since this is tedious and the name conventions will have to match what you use in the C++ code, you can just use the file `/data/variables.json`.
+correspond to the class labels you used. Or, since this is tedious and
+the name conventions will have to match what you use in the C++ code,
+you can just use the file `data/variables.json`.
 
 Making the lwtnn JSON configuration
 -----------------------------------
 
-Now that you've created (or found) the "variables" file, you can make save the entire NN to the lwtnn JSON format.
+Now that you've created (or found) the "variables" file, you can make
+save the entire NN to the lwtnn JSON format.
 
 ```bash
 ../lwtnn/converters/kerasfunc2json.py arch.json weights.h5 ../data/variables.json > nn-config.json
@@ -141,3 +144,54 @@ To make sure this works within lwtnn, you can run
 This should print out the same numbers that were printed from
 `make-keras-model.py`.
 
+Using lwtnn for inference
+=========================
+
+There's an example application of lwtnn in `example-inference`. Go there and type `make`. Once You've built it, you can run it with
+
+```bash
+./bin/lwtexample-main ../model/nn-config.json
+```
+
+This will print out some numbers corresponding to the flavor
+probabilities which are inferred from the inputs which are hardcoded
+in this example.
+
+Take a look at `src/lwtexample-main.cxx` to see what the code is
+doing. There are several important parts.
+
+#### Initializing the Graph ####
+
+The object that will do the computation is a `LightweightGraph`. This is initialized from a JSON file as follows
+
+```C++
+lwt::LightweightGraph graph(parse_json_graph(in_file_stream), "flavor");
+```
+
+where `in_file_stream` is an `std::istream` object corresponding to
+the JSON file we just created. Here `"flavor"` is the default output
+from the graph, which you can omit if your model only had one output.
+
+#### Evaluating the Graph ####
+
+The inputs to the graph must be structured as one of two types:
+
+ - For non-sequential inputs, a `map<string, map<string, double> >` is
+   used, where the outer container maps the input nodes and the inner
+   container maps the variables within the node.
+
+ - For sequence inputs, `map<string, map<string, vector<double> > >`.
+   Here the outer and inner containers correspond to the node and
+   variable as before.
+
+In the example here, the two functions `get_vertex_map()` and
+`get_track_map()` produce dummy objects to use.
+
+These are then fed into the `graph` object as follows:
+
+```C++
+auto flavor_probabilities = graph.compute(vertices, tracks, "flavor");
+auto charge = graph.compute(vertices, tracks, "charge");
+```
+
+The returned inputs are of type `map<string, double>`.
