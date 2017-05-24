@@ -13,14 +13,15 @@ vertex = layers.Input(shape=(8,), name='vertices')
 # add GRU to process tracks
 gru = layers.GRU(5)(tracks)
 
-# merge with the vertex inputs
+# merge with the vertex inputs and feed to a dense layer
 merged = layers.concatenate([gru, vertex])
+dense = layers.Dense(10, activation='relu')(merged)
 
 # add flavors output
-flavor = layers.Dense(4, activation='softmax', name='flavor')(merged)
+flavor = layers.Dense(4, activation='softmax', name='flavor')(dense)
 
 # add charge output
-charge = layers.Dense(1, name='charge')(merged)
+charge = layers.Dense(1, name='charge')(dense)
 
 # build and compile the model
 model = Model(inputs=[tracks, vertex], outputs=[flavor, charge])
